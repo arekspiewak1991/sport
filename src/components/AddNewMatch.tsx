@@ -8,12 +8,6 @@ type MatchProps = {
   away: string;
 }
 
-const NewItemInput = styled.input`
-  border-radius: 5px;
-  padding: 10px;
-  width: 100%;
-`
-
 const ButtonAdd = styled.button`
   background: #0F0;
   color: #FFF;
@@ -29,9 +23,10 @@ const AddNewMatch = () => {
     console.log(JSON.stringify(values));
     add({
       homeTeam: values.home,
-      homeScore: 1,
+      homeScore: Math.floor(Math.random()* 5),
       awayTeam: values.away,
-      awayScore: 2
+      awayScore: 2,
+      timestamp: Date.now()
     })
     setShowFrom(false);
   }

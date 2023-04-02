@@ -1,5 +1,28 @@
 {
-  "compilerOptions": {  
+  "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
+    "composite": true,
+    "target": "esnext",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "DOM"
+    ],
+    "module": "commonjs",
     "jsx": "react-jsx",
+    "sourceMap": true,
+    "removeComments": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "declaration": true,
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "incremental": true,
+    "resolveJsonModule": true
   }
 }

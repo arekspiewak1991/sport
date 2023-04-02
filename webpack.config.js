@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    filename: "bundle.[contenthash].js",
-    path: path.resolve(__dirname, "build"),
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "build")
   },
   module: {
     rules: [

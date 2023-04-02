@@ -18,7 +18,7 @@ const Form = ({ onAdd }: NewItemFormProps) => {
   const [isValid, setValid] = useState(false);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, [])
 
   useEffect(()=> {
@@ -30,14 +30,14 @@ const Form = ({ onAdd }: NewItemFormProps) => {
     return !!(values.home?.length && values.away?.length);
   }
 
-  const onChange = (event) => {
+  const onChange = (event: any) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
     })
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: any) => {
     onAdd(values);
     e.preventDefault();
   }
