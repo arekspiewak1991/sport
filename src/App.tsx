@@ -1,9 +1,13 @@
+import { AppContainer } from "./components/styles";
+import { Card } from "./components/Card";
+import AddNewMatch from "./components/AddNewMatch";
+
 const App = () => {
   return (
-    <>
-      <h1>My app</h1>
-      <span>Let's start</span>
-    </>
+    <AppContainer>
+      <Card text="Match" />
+      <AddNewMatch />      
+    </AppContainer>
   )
 }
 
