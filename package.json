@@ -1,0 +1,19 @@
+{
+  "name": "sport",
+  "version": "1.0.0",
+  "description": "React Sport App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/arekspiewak1991/sport.git"
+  },
+  "author": "Arkadiusz Spiewak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arekspiewak1991/sport/issues"
+  },
+  "homepage": "https://github.com/arekspiewak1991/sport#readme"
+}
