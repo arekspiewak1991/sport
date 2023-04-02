@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import useStore from "../services/helpers";
+import { useDebugValue } from "react";
 
 const CardContainer = styled.div`
   background: #FFF;
@@ -14,12 +16,21 @@ const CardTitle = styled.div`
 type CardProps = {
   text: string;
 }
-export const Card = ({text, children}: React.PropsWithChildren<CardProps>) => {
+export const Card = ({text}: CardProps) => {
+  const { state } = useStore();
+
   return (
     <CardContainer>
-      <CardTitle>
-        {text}
-      </CardTitle>
+      {
+        state && state.scores.teams.map(item => {
+          return (
+            <div key={item.homeTeam + "-" + item.awayTeam}>
+              <div>{item.homeTeam}</div>
+              <div>{item.awayTeam}</div>
+            </div>        
+          )
+        })
+      }
     </CardContainer>
   )
 }

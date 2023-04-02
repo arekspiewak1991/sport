@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 type NewItemFormProps = {
-  onAdd(text: string): void
+  onAdd( values: { [key: string]: string} ): void
 }
 
 const StyledInput = styled.input`
@@ -38,7 +38,7 @@ const Form = ({ onAdd }: NewItemFormProps) => {
   }
 
   const onSubmit = (e) => {
-    onAdd(JSON.stringify(values));
+    onAdd(values);
     e.preventDefault();
   }
 

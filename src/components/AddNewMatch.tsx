@@ -1,10 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Form from "./Form";
+import useStore from "../services/helpers";
 
 type MatchProps = {
-  homeTeam: string;
-  awayTeam: string;
+  home: string;
+  away: string;
 }
 
 const NewItemInput = styled.input`
@@ -22,12 +23,22 @@ const ButtonAdd = styled.button`
 `
 const AddNewMatch = () => {
   const [showForm, setShowFrom] = useState(false);
+  const { add } = useStore();
+
+  const onAdd = (values: MatchProps) => {
+    console.log(JSON.stringify(values));
+    add({
+      homeTeam: values.home,
+      homeScore: 1,
+      awayTeam: values.away,
+      awayScore: 2
+    })
+    setShowFrom(false);
+  }
 
   if(showForm) {
     return (
-      <>
-        <Form onAdd={console.log}/>
-      </>
+      <Form onAdd={onAdd}/>
     )
   }
   return(
