@@ -1,33 +1,44 @@
 import styled from "styled-components"
 import useStore from "../services/helpers";
-import { useDebugValue } from "react";
+import Counter from "./Counter";
 
 const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   background: #FFF;
-  margin-bottom: 12px;
-  padding: 12px;
-  max-width: 300px;
-`
-const CardTitle = styled.div`
-  font-size: 24px;
-  padding: 10px;
 `
 
-type CardProps = {
-  text: string;
-}
-export const Card = ({text}: CardProps) => {
+const ItemContainer = styled.div`
+  border: 1px solid #F00;
+  border-radius: 5px;
+`
+
+// type CardProps = {
+//   text: string;
+// }
+export const Card = () => {
   const { state } = useStore();
 
+  const scoresWithSum = state?.scores.teams.map(item => {
+    return {
+      total: item.awayScore + item.homeScore,
+      ...item
+    }
+  });
+
+  const sorted = scoresWithSum?.sort((a, b) => { return b.total - a.total});
+  console.log("SORTED", sorted);
   return (
     <CardContainer>
       {
-        state && state.scores.teams.map(item => {
+        sorted && sorted.map(item => {
           return (
-            <div key={item.homeTeam + "-" + item.awayTeam}>
+            <ItemContainer key={item.homeTeam + "-" + item.awayTeam}>
+              <Counter />
               <div>{item.homeTeam}</div>
+              <Counter />
               <div>{item.awayTeam}</div>
-            </div>        
+            </ItemContainer>        
           )
         })
       }

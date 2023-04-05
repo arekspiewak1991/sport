@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Subject } from 'rxjs'
 
 const subject = new Subject();
@@ -18,26 +18,12 @@ interface Match {
   awayScore: number;
 }
 
-const initialState: State = {
-  scores: {
-    teams: [
-      {
-        homeTeam: "",
-        homeScore: 0,
-        awayTeam: "",
-        awayScore: 0
-      }
-    ]
-  }
-};
-
 const useStore = () => {
-  const [state, setState] = useState<State>(initialState);
+  const [state, setState] = useState<State>({scores: {teams: []}});
 
   useEffect(() => {
-    console.log("useEffect inside useStore");
-    const subscription = subject.subscribe((state: State) => {
-      setState(state);
+    const subscription = subject.subscribe((state) => {
+      setState(state as State);
     });
 
     return () => {
@@ -48,13 +34,11 @@ const useStore = () => {
   }, []);
 
   const add = (newState: Match) => {
-    console.log("Add inside useStore: ", JSON.stringify(newState));
-    console.log("Current ", JSON.stringify(state));
     const updatedState = {
       ...state,
       scores: {
         teams: [
-          ...state.scores.teams,
+          ...(state && state.scores ? state.scores.teams : []),
           newState
         ]
       }

@@ -4,17 +4,14 @@ import styled from "styled-components"
 
 export const AppContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  background: #49c5b6
+  flex-direction: column;
 `
 
 const App = () => {
   return (
     <AppContainer>
-      <Card text="Match" />
       <AddNewMatch />      
+      <Card />
     </AppContainer>
   )
 }
