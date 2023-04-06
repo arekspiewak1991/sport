@@ -4,7 +4,7 @@ import Counter from "./Counter";
 
 const CardContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background: #FFF;
 `
 
@@ -13,12 +13,8 @@ const ItemContainer = styled.div`
   border-radius: 5px;
 `
 
-// type CardProps = {
-//   text: string;
-// }
 export const Card = () => {
-  const { state } = useStore();
-
+  const { state, update } = useStore();
   const scoresWithSum = state?.scores.teams.map(item => {
     return {
       total: item.awayScore + item.homeScore,
@@ -28,15 +24,24 @@ export const Card = () => {
 
   const sorted = scoresWithSum?.sort((a, b) => { return b.total - a.total});
   console.log("SORTED", sorted);
+
+  const onCounter = (val: number, timestamp: number, type: string) => {
+    console.log("onCounterClicked: ", val, timestamp, type);
+    const idx = state.scores.teams.findIndex((item) => item.timestamp == timestamp);
+    const scoreToChange = type === "home" ? "homeScore" : "awayScore";
+    const updatedItem = { ...state.scores.teams[idx], [scoreToChange]: val };
+    update(updatedItem);
+  }
+
   return (
     <CardContainer>
       {
         sorted && sorted.map(item => {
           return (
             <ItemContainer key={item.homeTeam + "-" + item.awayTeam}>
-              <Counter />
+              <Counter type="home" id={item.timestamp} value={item.homeScore} handleOnClick={onCounter} />
               <div>{item.homeTeam}</div>
-              <Counter />
+              <Counter type="away" id={item.timestamp} value={item.awayScore} handleOnClick={onCounter}/>
               <div>{item.awayTeam}</div>
             </ItemContainer>        
           )

@@ -23,9 +23,10 @@ const AddNewMatch = () => {
     console.log(JSON.stringify(values));
     add({
       homeTeam: values.home,
-      homeScore: Math.floor(Math.random()* 5),
+      homeScore: Math.floor(Math.random()* 100),
       awayTeam: values.away,
-      awayScore: 2
+      awayScore: 2,
+      timestamp: Date.now()
     })
     setShowFrom(false);
   }
