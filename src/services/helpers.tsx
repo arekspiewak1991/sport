@@ -11,11 +11,12 @@ export interface Scores {
   teams: Match[];
 }
 
-interface Match {
+export interface Match {
   homeTeam: string;
   awayTeam: string;
   homeScore: number;
   awayScore: number;
+  timestamp: number;
 }
 
 const useStore = () => {
@@ -35,10 +36,9 @@ const useStore = () => {
 
   const add = (newState: Match) => {
     const updatedState = {
-      ...state,
       scores: {
         teams: [
-          ...(state && state.scores ? state.scores.teams : []),
+          ...(state && state.scores.teams),
           newState
         ]
       }
@@ -46,12 +46,26 @@ const useStore = () => {
     setState(updatedState);
     subject.next(updatedState);
   }
-  
+
+  const update = (newState: Match) => {
+    const updatedState = state.scores.teams.map(item => item.timestamp === newState.timestamp ? {...item, ...newState} : item);
+    setState({
+      scores: {
+        teams: updatedState
+      }
+    });
+    subject.next({
+      scores: {
+        teams: updatedState
+      }
+    });
+  }
+
   const clear = () => {
     subject.next({});
   }
   
-  return { add, clear, state };
+  return { add, update, clear, state };
 }
 
 export default useStore;
