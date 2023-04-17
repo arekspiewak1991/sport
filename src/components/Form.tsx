@@ -1,14 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { Button } from "./UIElements";
 
 type NewItemFormProps = {
   onAdd( values: { [key: string]: string} ): void
 }
 
-const StyledInput = styled.input`
-  color: #000;
-  font-size: 16px;
-`
+const StyledInput = styled.input({
+  color: "#000",
+  fontSize: 24,
+  flex: 1,
+  padding: 6,
+  "::placeholder": {
+    color: "#E0E0E0"
+  }
+})
+
+const SubmitBtn = styled(Button)({
+  width: 200,
+  height: 55,
+  background: "#00003c"
+})
 
 const Form = ({ onAdd }: NewItemFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,16 +42,16 @@ const Form = ({ onAdd }: NewItemFormProps) => {
     return !!(values.home?.length && values.away?.length);
   }
 
-  const onChange = (event: any) => {
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value
+      [event.currentTarget.name]: event.currentTarget.value
     })
   }
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     onAdd(values);
-    e.preventDefault();
+    event.preventDefault();
   }
 
   return (
@@ -49,15 +61,15 @@ const Form = ({ onAdd }: NewItemFormProps) => {
         name="home"
         ref={inputRef}
         onChange={onChange}
-        placeholder={values["home"]}
+        placeholder={"Home Team Name"}
       />
       <StyledInput
         value={values["away"]}
         name="away"
         onChange={onChange}
-        placeholder={values["away"]}
+        placeholder={"Away Team Name"}
       />
-      <button onClick={onSubmit} disabled={!isValid}>Submit</button>
+      <SubmitBtn onClick={onSubmit} disabled={!isValid} label="Submit"/>
     </>
     
   )

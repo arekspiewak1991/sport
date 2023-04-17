@@ -1,17 +1,41 @@
 import styled from "styled-components"
 import useStore from "../services/helpers";
 import Counter from "./Counter";
+import { Text } from "./UIElements";
 
-const CardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #FFF;
-`
+const CardContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  background: "#FFF"
+})
 
-const ItemContainer = styled.div`
-  border: 1px solid #F00;
-  border-radius: 5px;
-`
+const TableContainer = styled.div({
+  display: "flex",
+  flexFlow: "column nowrap",
+  borderRadius: 4,
+  border: "1px solid #DADADA",
+})
+
+const TableRow = styled.div({
+  display: "flex",
+  flexFlow: "row nowrap",
+  width: "100%",
+  borderBottom: "1px solid #dadada"
+})
+
+const Heading = styled(TableRow)({
+  color: "#3e3e3e",
+  fontWeight: "bold"
+})
+
+const RowItem = styled.div({
+  display: "flex",
+  flex: 1,
+  fontSize: 14,
+  padding: 8,
+  justifyContent: "center",
+  alignItems: "center"
+})
 
 export const Card = () => {
   const { state, update } = useStore();
@@ -23,10 +47,8 @@ export const Card = () => {
   });
 
   const sorted = scoresWithSum?.sort((a, b) => { return b.total - a.total});
-  console.log("SORTED", sorted);
 
   const onCounter = (val: number, timestamp: number, type: string) => {
-    console.log("onCounterClicked: ", val, timestamp, type);
     const idx = state.scores.teams.findIndex((item) => item.timestamp == timestamp);
     const scoreToChange = type === "home" ? "homeScore" : "awayScore";
     const updatedItem = { ...state.scores.teams[idx], [scoreToChange]: val };
@@ -35,18 +57,34 @@ export const Card = () => {
 
   return (
     <CardContainer>
-      {
-        sorted && sorted.map(item => {
-          return (
-            <ItemContainer key={item.homeTeam + "-" + item.awayTeam}>
-              <Counter type="home" id={item.timestamp} value={item.homeScore} handleOnClick={onCounter} />
-              <div>{item.homeTeam}</div>
-              <Counter type="away" id={item.timestamp} value={item.awayScore} handleOnClick={onCounter}/>
-              <div>{item.awayTeam}</div>
-            </ItemContainer>        
-          )
-        })
-      }
+        <TableContainer className="table">
+        <Heading>
+          <RowItem className="row-item">Home Team</RowItem>
+          <RowItem className="row-item">Home Score</RowItem>
+          <RowItem className="row-item">Away Team</RowItem>
+          <RowItem className="row-item">Away Score</RowItem>
+        </Heading>
+        {
+          sorted && sorted.map(item => {
+            return (
+              <TableRow key={item.homeTeam + "-" + item.awayTeam}>
+                <RowItem>
+                  <Text>{item.homeTeam}</Text>
+                </RowItem>
+                <RowItem>
+                  <Counter type="home" id={item.timestamp} value={item.homeScore} handleOnClick={onCounter}/>
+                </RowItem>
+                <RowItem>
+                  <Counter type="away" id={item.timestamp} value={item.awayScore} handleOnClick={onCounter}/>
+                </RowItem>
+                <RowItem>
+                  <Text>{item.awayTeam}</Text>
+                </RowItem>
+              </TableRow>        
+            )
+          })
+        }
+        </TableContainer>
     </CardContainer>
   )
 }
