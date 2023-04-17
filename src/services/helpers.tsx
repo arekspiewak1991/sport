@@ -43,17 +43,11 @@ const useStore = () => {
         ]
       }
     }
-    setState(updatedState);
     subject.next(updatedState);
   }
 
   const update = (newState: Match) => {
     const updatedState = state.scores.teams.map(item => item.timestamp === newState.timestamp ? {...item, ...newState} : item);
-    setState({
-      scores: {
-        teams: updatedState
-      }
-    });
     subject.next({
       scores: {
         teams: updatedState
